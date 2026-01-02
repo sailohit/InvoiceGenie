@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* PREMIUM LIGHT THEME (Slate / Royal Blue / Gold) */
+    --background: 210 40% 98%; /* Very light cool gray */
+    --foreground: 222 47% 11%; /* Deep slate blue */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%; /* Vivid Royal Blue */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 43 96% 56%; /* Gold/Amber for premium touches */
+    --accent-foreground: 26 83% 14%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.75rem; /* Slightly more rounded for modern feel */
+
+    /* Custom tokens */
+    --invoice-header: 222 47% 11%; /* Deep Slate */
+    --invoice-header-foreground: 0 0% 100%;
+    --invoice-accent: 221 83% 53%; /* Royal Blue */
+    --invoice-border: 214.3 31.8% 91.4%;
+    --label-bg: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 355 100% 100%;
+    
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 221 83% 53%; 
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 221 83% 53%;
+  }
+
+  .dark {
+    /* PREMIUM DARK THEME (Deep Navy / Gold) */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%; /* Lighter Royal Blue */
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 43 96% 56%; /* Gold */
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+
+    --invoice-header: 217 33% 17%;
+    --invoice-header-foreground: 0 0% 100%;
+    --invoice-accent: 217 91% 60%;
+    --invoice-border: 217 33% 25%;
+    --label-bg: 217 33% 15%;
+    --success: 142 70% 50%;
+    --success-foreground: 144 100% 5%;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer components {
+  .invoice-container {
+    @apply bg-card shadow-lg rounded-lg overflow-hidden;
+  }
+
+  .invoice-header {
+    @apply bg-[hsl(var(--invoice-header))] text-[hsl(var(--invoice-header-foreground))] p-6;
+  }
+
+  .invoice-table {
+    @apply w-full border-collapse;
+  }
+
+  .invoice-table th {
+    @apply bg-muted text-foreground font-semibold text-left p-3 text-sm uppercase tracking-wide;
+  }
+
+  .invoice-table td {
+    @apply p-3 border-b border-[hsl(var(--invoice-border))] text-sm;
+  }
+
+  .shipping-label {
+    @apply bg-[hsl(var(--label-bg))] border-2 border-dashed border-[hsl(var(--invoice-border))] p-6 rounded-lg;
+  }
+
+  .label-section {
+    @apply border border-[hsl(var(--invoice-border))] p-4 bg-card rounded;
+  }
+
+  .paste-area {
+    @apply w-full min-h-[200px] p-4 border-2 border-dashed border-[hsl(var(--invoice-border))] rounded-lg bg-card 
+           focus:border-[hsl(var(--invoice-accent))] focus:ring-2 focus:ring-[hsl(var(--invoice-accent))/20] 
+           transition-all duration-200 resize-none font-mono text-sm;
+  }
+
+  .btn-download {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-[hsl(var(--success))] text-[hsl(var(--success-foreground))] 
+           font-semibold rounded-lg hover:opacity-90 transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+
+  .tab-button {
+    @apply px-6 py-3 font-medium transition-all duration-200 border-b-2;
+  }
+
+  .tab-button.active {
+    @apply border-[hsl(var(--invoice-accent))] text-[hsl(var(--invoice-accent))];
+  }
+
+  .tab-button:not(.active) {
+    @apply border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
