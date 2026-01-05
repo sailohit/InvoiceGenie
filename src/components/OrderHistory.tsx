@@ -110,9 +110,10 @@ export const OrderHistory = forwardRef<OrderHistoryRef, OrderHistoryProps>(({ on
                     order.pincode
                 ].filter(Boolean).join('\n');
 
-                msg = `Hello ${customerName} 👋
+                const companyNameText = order.companyName || 'Your Company';
+                msg = `Hello ${customerName} ��
 
-Thank you for your order with *${order.companyName || 'Mana Inti Laddus'}* ❤️
+Thank you for your order with *${companyNameText}* ❤️
 Your order has been packed and dispatched successfully.
 
 📄 Invoice No: ${invoiceNum}
@@ -125,26 +126,39 @@ ${fullAddress}
 You can track your shipment using the above tracking ID with the courier partner.
 For any assistance, feel free to reach out to us.
 
-${order.companyName || 'Mana Inti Laddus'}
-From Our Home to Yours 🌿`;
+${companyNameText}`;
 
             } else {
                 // Payment Reminder Standard Type
-                msg = `Hi ${customerName}, here is your invoice ${invoiceNum} from ${order.companyName || 'us'}. Total: ${currencySymbol}${formattedTotal}. Please pay by ${order.dueDate || 'due date'}.`;
+                const companyNameText = order.companyName || 'Invoice';
+                msg = `Hi ${customerName}, here is your invoice ${invoiceNum}. Total: ${currencySymbol}${formattedTotal}. Please pay by ${order.dueDate || 'due date'}.`;
             }
 
             const link = generateWhatsAppLink(order.phone, msg);
             window.open(link, '_blank');
-        } else {
+        } else if (type === 'email' || type === 'gmail') {
             if (!order.email) {
                 toast.error("No email available");
                 return;
             }
-            const subject = `Invoice ${invoiceNum} from ${order.companyName}`;
-            const body = `Hi ${customerName},\n\nPlease find attached your invoice ${invoiceNum}.\n\nTotal Due: ${currencySymbol}${formattedTotal}\n\nThank you,\n${order.companyName}`;
-            const link = generateEmailLink(order.email, subject, body);
-            // Open in new tab to avoid blocking
-            window.open(link, '_blank');
+            const subject = `Invoice ${invoiceNum}`;
+            const body = `Hi ${customerName},\n\nPlease find attached your invoice ${invoiceNum}.\n\nTotal Due: ${currencySymbol}${formattedTotal}\n\nThank you`;
+
+            if (type === 'gmail') {
+                const link = generateGmailLink(order.email, subject, body);
+                if (!link) {
+                    toast.error("Invalid email address");
+                    return;
+                }
+                window.open(link, '_blank');
+            } else {
+                const link = generateEmailLink(order.email, subject, body);
+                if (!link) {
+                    toast.error("Invalid email address");
+                    return;
+                }
+                window.open(link, '_blank');
+            }
         }
     };
 

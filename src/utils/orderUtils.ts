@@ -75,22 +75,38 @@ export const generateInvoiceNumber = (): string => {
 };
 
 export const generateWhatsAppLink = (phone: string, message: string) => {
-  // Clean phone number: remove non-digits
+  // Clean phone number: remove all non-digit characters
   let cleanPhone = phone.replace(/\D/g, '');
 
-  // If number doesn't have country code (less than 11 digits), assume India (+91)
+  // Handle country code logic
+  // If number is 10 digits, assume India (+91)
+  // If already has country code (starts with 1-9 and has 11+ digits), use as-is
+  // Otherwise, preserve what we have
   if (cleanPhone.length === 10) {
     cleanPhone = '91' + cleanPhone;
+  } else if (cleanPhone.length < 10) {
+    // Invalid phone number, but still attempt to use it
+    console.warn('Phone number appears too short:', phone);
   }
 
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 };
 
 export const generateGmailLink = (email: string, subject: string, body: string) => {
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // Validate email before generating link
+  if (!email || !isEmail(email)) {
+    console.error('Invalid email for Gmail link:', email);
+    return '';
+  }
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
 export const generateEmailLink = (email: string, subject: string, body: string) => {
+  // Validate email before generating link
+  if (!email || !isEmail(email)) {
+    console.error('Invalid email for mailto link:', email);
+    return '';
+  }
   return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
